@@ -3,8 +3,8 @@ Description of Project:
 The Recipe Book is a GUI-based application that facilitates users in managing recipes. The system supports one persona: Users, offering streamlined features tailored to their respective needs. All data will be stored in the dataFile.
 
 Features:
-1. Users
-Users create, view, modify, search, rate, view, browse, and delete recipes. 
+1. Users: Users create, view, modify, search, rate, view, browse, and delete recipes.
+
 Create Recipes: Add new recipes by specifying dish, diet (e.g., vegan, kosher, halal etc), ingredients, time, and instructions.
 Modify Recipes: Update details of existing recipes, such as new ingredients.
 Search Recipe by Ingredient: Users should be able to search for recipes based on an ingredient

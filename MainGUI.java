@@ -28,25 +28,25 @@ public class MainGUI extends JFrame{
         searchButton.setPreferredSize(buttonSize);
         browseButton.setPreferredSize(buttonSize);
 
-        
-        // //adding action listeners to out buttons
-        // createButton.addActionListener(new ActionListener(){
-        //     public void actionPerformed(ActionEvent e) {
-        //         new CreateGUI();
-        //     }
-        // });
+    
+        //adding action listeners to out buttons
+        createButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                new CreateGUI();
+            }
+        });
 
-        // searchButton.addActionListener(new ActionListener(){
-        //     public void actionPerformed(ActionEvent e) {
-        //         new SearcheGUI();
-        //     }
-        // });
+        searchButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                new SearcheGUI();
+            }
+        });
 
-        // browseButton.addActionListener(new ActionListener(){
-        //     public void actionPerformed(ActionEvent e) {
-        //         new BrowseGUI();
-        //     }
-        // });
+        browseButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                new BrowseGUI();
+            }
+        });
 
         //layout
         // setLayout(new GridLayout(3, 1, 10, 10));

@@ -21,4 +21,5 @@ Browse Recipes: Access a list of recipes, basic info, and rating.
 
 Resources: 
 - https://www.geeksforgeeks.org/arraylist-removeif-method-in-java/
-
+- https://ioflood.com/blog/java-string-trim/
+- https://www.w3schools.com/java/ref_string_equalsignorecase.asp

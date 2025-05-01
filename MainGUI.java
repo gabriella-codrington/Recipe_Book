@@ -9,7 +9,10 @@ public class MainGUI extends JFrame{
     private JButton searchButton;
     private JButton browseButton;
 
+    private RecipeBook recipeBook;
+
     public MainGUI(){
+        recipeBook = new RecipeBook();
         //set up frame
         setTitle("Recipe Book - Main Menu");
         setSize(600, 400);
@@ -32,19 +35,19 @@ public class MainGUI extends JFrame{
         //adding action listeners to out buttons
         createButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                new CreateGUI();
+                new CreateGUI(recipeBook);
             }
         });
 
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                new SearcheGUI();
+                new SearcheGUI(recipeBook);
             }
         });
 
         browseButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                new BrowseGUI();
+                new BrowseGUI(recipeBook);
             }
         });
 

@@ -1,5 +1,6 @@
-import java.io.*;
 import javax.swing.*;
+import java.awt.*;
+import java.io.*;
 
 public class BrowseGUI extends JFrame {
     private JList<String> recipeList;
@@ -10,12 +11,37 @@ public class BrowseGUI extends JFrame {
     public BrowseGUI() {
         recipeList = new JList<>();
         browseScrollPane = new JScrollPane(recipeList);
-    
-        add(viewButton);
-        add(cancelButton);
-        add(browseScrollPane);
 
-        cancelButton.addActionListener(e -> cancel());
+        setTitle("Browse Recipes");
+        setSize(600, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        add(browseScrollPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        viewButton = new JButton("View");
+        cancelButton = new JButton("Cancel");
+
+        buttonPanel.add(viewButton);
+        buttonPanel.add(cancelButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+
+        displayRecipes();
+
+        viewButton.addActionListener(e -> {
+            int selectedIndex = recipeList.getSelectedIndex();
+            if (selectedIndex != -1) {
+                selectRecipe(selectedIndex + 1);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a recipe to view.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+        cancelButton.addActionListener(e -> dispose());
+
+        setVisible(true);
     }
 
     public void displayRecipes() {
@@ -61,7 +87,4 @@ public class BrowseGUI extends JFrame {
         }
     }
 
-    public void cancel() {
-        recipeList.clearSelection();
-    }
 }

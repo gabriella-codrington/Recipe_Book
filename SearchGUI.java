@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
@@ -12,8 +11,10 @@ public class SearchGUI extends JFrame {
     private JButton cancelButton;
     private JList<String> resultList;
     private JScrollPane resultScrollPane;
+    
+    private RecipeBook recipeBook;
 
-    public SearchGUI() {
+    public SearchGUI(RecipeBook recipeBook) {
         resultList = new JList<>();
         resultScrollPane = new JScrollPane(resultList); 
 
@@ -49,40 +50,30 @@ public class SearchGUI extends JFrame {
         setVisible(true);
     }
     public void searchRecipe(ActionEvent e) {
-        String input = searchIngredients.getText().trim().toLowerCase();
-        if (input.isEmpty()) {
-            resultList.setListData(new String[0]);
-            return;
-        }
-    
-        String[] ingredientsToSearch = input.split(",");
-        List<String> matchedRecipes = new ArrayList<>();
-    
-        try (BufferedReader reader = new BufferedReader(new FileReader("dataFile.txt"))) {
-            String line;
-            String currentName = null;
-            String currentIngredients = null;
-    
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith("Name:")) {
-                    currentName = line.substring(5).trim();
-                } else if (line.startsWith("Ingredients:")) {
-                    currentIngredients = line.substring(12).toLowerCase();
-    
-                    boolean matches = Arrays.stream(ingredientsToSearch)
-                        .map(String::trim)
-                        .allMatch(currentIngredients::contains);
-    
-                    if (matches && currentName != null) {
-                        matchedRecipes.add(currentName);
-                    }
-                }
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    
-        resultList.setListData(matchedRecipes.toArray(new String[0]));
+    String input = searchIngredients.getText().trim().toLowerCase();
+    if (input.isEmpty()) {
+        resultList.setListData(new String[0]);
+        return;
     }
+
+    String[] ingredientsToSearch = input.split(",");
+    List<Recipe> filteredRecipes = recipeBook.getAllRecipes();
+
+    for (String ingredient : ingredientsToSearch) {
+        String trimmed = ingredient.trim();
+        filteredRecipes = filteredRecipes.stream()
+            .filter(recipe -> recipe.getIngredients().stream()
+                .anyMatch(ing -> ing.equalsIgnoreCase(trimmed)))
+            .toList(); // Java 16+; use .collect(Collectors.toList()) if you're using Java 8
+    }
+
+    // Extract names for the list
+    List<String> recipeNames = filteredRecipes.stream()
+        .map(Recipe::getName)
+        .toList();
+
+    resultList.setListData(recipeNames.toArray(new String[0]));
+}
+
     
 }

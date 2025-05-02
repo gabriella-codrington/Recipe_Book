@@ -41,13 +41,13 @@ public class MainGUI extends JFrame{
 
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                new SearchGUI();
+                new SearchGUI(recipeBook);
             }
         });
 
         browseButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                new BrowseGUI();
+                new BrowseGUI(recipeBook);
             }
         });
 

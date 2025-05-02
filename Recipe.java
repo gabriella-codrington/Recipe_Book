@@ -24,6 +24,9 @@ public class Recipe {
         this.rating = 0.0;
     }
 
+    public Recipe(int id, String name2, List<String> ingredients2, String instructions2) {
+    }
+
     public void updateRecipe(String name,List<String> ingredients, String instructions,String time, String dietType){
         this.name = name;
         this.ingredients = new ArrayList<>(ingredients);

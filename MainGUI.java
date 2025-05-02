@@ -41,7 +41,7 @@ public class MainGUI extends JFrame{
 
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                new SearcheGUI(recipeBook);
+                new SearchGUI(recipeBook);
             }
         });
 

@@ -1,8 +1,6 @@
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchGUI extends JFrame {
     private JTextField searchIngredients;
@@ -10,54 +8,53 @@ public class SearchGUI extends JFrame {
     private JButton cancelButton;
     private JList<String> resultList;
     private JScrollPane resultScrollPane;
-    private List<Recipe> allRecipes;
 
-    public SearchGUI(List<Recipe> recipes) {
-        this.allRecipes = recipes;
-        setTitle("Search Recipes");
-        setSize(400, 300);
-        setLayout(new BorderLayout());
-
-        JPanel topPanel = new JPanel();
-        searchIngredients = new JTextField(20);
-        searchButton = new JButton("Search");
-        cancelButton = new JButton("Cancel");
-
-        topPanel.add(new JLabel("Search:"));
-        topPanel.add(searchIngredients);
-        topPanel.add(searchButton);
-        topPanel.add(cancelButton);
-
+    public SearchGUI() {
         resultList = new JList<>();
-        resultScrollPane = new JScrollPane(resultList);
-
-        add(topPanel, BorderLayout.NORTH);
-        add(resultScrollPane, BorderLayout.CENTER);
-
-        searchButton.addActionListener(e -> {
-            String query = searchIngredients.getText().toLowerCase();
-            List<Recipe> results = searchRecipe(query);
-            DefaultListModel<String> model = new DefaultListModel<>();
-            for (Recipe r : results) {
-                model.addElement(r.getName());
-            }
-            resultList.setModel(model);
-        });
+        resultScrollPane = new JScrollPane(resultList); 
+    
+        add(searchIngredients);
+        add(searchButton);
+        add(cancelButton);
+        add(resultScrollPane); 
 
         cancelButton.addActionListener(e -> cancel());
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setVisible(true);
     }
+    
 
-    public List<Recipe> searchRecipe(String query) {
-        return allRecipes.stream()
-                .filter(r -> r.getName().toLowerCase().contains(query) ||
-                             r.getIngredients().toLowerCase().contains(query))
-                .collect(Collectors.toList());
+    public List<String> searchRecipe(String ingredientInput) {
+        List<String> matchedRecipes = new ArrayList<>();
+        String[] ingredientsToSearch = ingredientInput.split(",");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("dataFile.txt"))) {
+            String line;
+            String currentName = null;
+            String currentIngredients = null;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Name:")) {
+                    currentName = line.substring(5).trim();
+                } else if (line.startsWith("Ingredients:")) {
+                    currentIngredients = line.substring(12).toLowerCase();
+
+                    boolean matches = Arrays.stream(ingredientsToSearch)
+                        .map(String::trim)
+                        .allMatch(currentIngredients::contains);
+
+                    if (matches && currentName != null) {
+                        matchedRecipes.add(currentName);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return matchedRecipes;
     }
 
     public void cancel() {
-        dispose();
+        searchIngredients.setText("");
+        resultList.setListData(new String[0]);
     }
 }

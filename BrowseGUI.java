@@ -1,64 +1,67 @@
+import java.io.*;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
 
 public class BrowseGUI extends JFrame {
     private JList<String> recipeList;
     private JScrollPane browseScrollPane;
     private JButton viewButton;
     private JButton cancelButton;
-    private List<Recipe> allRecipes;
 
-    public BrowseGUI(List<Recipe> recipes) {
-        this.allRecipes = recipes;
-        setTitle("Browse Recipes");
-        setSize(400, 300);
-        setLayout(new BorderLayout());
-
+    public BrowseGUI() {
         recipeList = new JList<>();
         browseScrollPane = new JScrollPane(recipeList);
-        viewButton = new JButton("View");
-        cancelButton = new JButton("Cancel");
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(viewButton);
-        buttonPanel.add(cancelButton);
-
-        add(browseScrollPane, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        displayRecipes();
-
-        viewButton.addActionListener(e -> {
-            int index = recipeList.getSelectedIndex();
-            if (index != -1) {
-                selectRecipe(index);
-            }
-        });
+    
+        add(viewButton);
+        add(cancelButton);
+        add(browseScrollPane);
 
         cancelButton.addActionListener(e -> cancel());
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setVisible(true);
     }
 
     public void displayRecipes() {
         DefaultListModel<String> model = new DefaultListModel<>();
-        for (Recipe r : allRecipes) {
-            model.addElement(r.getName());
+        try (BufferedReader reader = new BufferedReader(new FileReader("dataFile.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("Name:")) {
+                    model.addElement(line.substring(5).trim());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         recipeList.setModel(model);
     }
 
-    public void selectRecipe(int index) {
-        Recipe selected = allRecipes.get(index);
-        JOptionPane.showMessageDialog(this,
-                "Name: " + selected.getName() + "\nIngredients: " + selected.getIngredients(),
-                "Recipe Details", JOptionPane.INFORMATION_MESSAGE);
+    public void selectRecipe(int recipeID) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("dataFile.txt"))) {
+            String line;
+            boolean found = false;
+            StringBuilder recipeDetails = new StringBuilder();
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith("ID:") && Integer.parseInt(line.substring(3).trim()) == recipeID) {
+                    found = true;
+                    recipeDetails.append(line).append("\n");
+                } else if (found && !line.equals("---")) {
+                    recipeDetails.append(line).append("\n");
+                } else if (found && line.equals("---")) {
+                    break;
+                }
+            }
+
+            if (found) {
+                JOptionPane.showMessageDialog(this, recipeDetails.toString(), "Recipe Details", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Recipe not found", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void cancel() {
-        dispose();
+        recipeList.clearSelection();
     }
 }

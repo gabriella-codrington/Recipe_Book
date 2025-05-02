@@ -1,11 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class BrowseGUI extends JFrame {
     private JList<String> recipeList;
     private JScrollPane browseScrollPane;
     private JButton viewButton;
+    private JButton modifyButton;
+    private JButton rateButton;
+    private JButton deleteButton;
     private JButton cancelButton;
+ 
 
     private RecipeBook recipeBook;
 
@@ -27,9 +32,15 @@ public class BrowseGUI extends JFrame {
         // Buttons
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         viewButton = new JButton("View");
+        modifyButton = new JButton("Modify");
+        rateButton = new JButton("Rate");
+        deleteButton = new JButton("Delete");
         cancelButton = new JButton("Cancel");
-
+        
         buttonPanel.add(viewButton);
+        buttonPanel.add(modifyButton);
+        buttonPanel.add(rateButton);
+        buttonPanel.add(deleteButton);
         buttonPanel.add(cancelButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -46,6 +57,7 @@ public class BrowseGUI extends JFrame {
             }
         });
 
+        
         cancelButton.addActionListener(e -> dispose());
 
         setVisible(true);

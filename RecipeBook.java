@@ -46,36 +46,58 @@ public class RecipeBook {
     //needs savetofile method
 
     public void loadFromFile(String filename) {
+        recipes.clear();
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
-            int id = -1;
-            String name = null;
-            List<String> ingredients = null;
-            String instructions = null;
-
+            String name = "";
+            List<String> ingredients = new ArrayList<>();
+            String instructions = "";
+            String time = "";
+            String dietType = "";
+            int rating = 0;
+    
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("ID:")) {
-                    id = Integer.parseInt(line.substring(3).trim());
-                } else if (line.startsWith("Name:")) {
+                if (line.startsWith("Name:")) {
                     name = line.substring(5).trim();
                 } else if (line.startsWith("Ingredients:")) {
-                    String[] parts = line.substring(12).split(",");
-                    ingredients = new ArrayList<>();
-                    for (String ing : parts) {
-                        ingredients.add(ing.trim());
-                    }
+                    String[] ings = line.substring(12).split(",");
+                    ingredients = Arrays.asList(ings);
                 } else if (line.startsWith("Instructions:")) {
                     instructions = line.substring(13).trim();
+                } else if (line.startsWith("Time:")) {
+                    time = line.substring(13).trim();
+                } else if (line.startsWith("Diet Type:")) {
+                    dietType = line.substring(10).trim();
+                } else if (line.startsWith("Rating:")) {
+                    rating = Integer.parseInt(line.substring(7).trim());
                 } else if (line.equals("---")) {
-                    if (id != -1 && name != null && ingredients != null && instructions != null) {
-                        recipes.add(new Recipe(id, name, ingredients, instructions));
-                    }
-                    // Reset for next recipe
-                    id = -1;
-                    name = null;
-                    ingredients = null;
-                    instructions = null;
+                    Recipe recipe = new Recipe(name, ingredients, instructions, time, dietType);
+                    recipe.setRating(rating); // If rating is optional/set separately
+                    recipes.add(recipe);
+    
+                    // reset temp variables
+                    name = "";
+                    ingredients = new ArrayList<>();
+                    instructions = "";
+                    dietType = "";
+                    rating = 0;
                 }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }    
+
+    public void saveToFile(String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+            for (Recipe recipe : recipes) {
+                writer.println("ID:" + recipe.getRecipeId());
+                writer.println("Name:" + recipe.getName());
+                writer.println("Ingredients:" + String.join(",", recipe.getIngredients()));
+                writer.println("Instructions:" + recipe.getInstructions());
+                writer.println("Diet Type:" + recipe.getDietType());
+                writer.println("Rating:" + recipe.getRating());
+                writer.println("---");
             }
         } catch (IOException e) {
             e.printStackTrace();

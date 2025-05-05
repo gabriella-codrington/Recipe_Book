@@ -40,7 +40,7 @@ public class SearchGUI extends JFrame {
 
         add(formPanel, BorderLayout.NORTH);
 
-        resultScrollPane.setBorder(BorderFactory.createTitledBorder("Martaching Recipes"));
+        resultScrollPane.setBorder(BorderFactory.createTitledBorder("Matching Recipes"));
 
         add(resultScrollPane, BorderLayout.CENTER);
 

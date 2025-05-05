@@ -1,0 +1,7 @@
+ID:1
+Name:salad
+Ingredients:lettuce,tomato,dressing
+Instructions:put all ingredients together in a bowl
+Diet Type:vegan
+Rating:0.0
+---

@@ -13,6 +13,7 @@ public class MainGUI extends JFrame{
 
     public MainGUI(){
         recipeBook = new RecipeBook();
+        recipeBook.loadFromFile("dataFile.txt");
         //set up frame
         setTitle("Recipe Book - Main Menu");
         setSize(600, 400);
@@ -60,7 +61,6 @@ public class MainGUI extends JFrame{
         setVisible(true);
 
     }
-
 
     public static void main(String[] args){
         SwingUtilities.invokeLater(() -> new MainGUI());

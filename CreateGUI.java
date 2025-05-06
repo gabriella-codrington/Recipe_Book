@@ -93,6 +93,7 @@ public class CreateGUI extends JFrame{
             }
             Recipe newRecipe = new Recipe(name, ingredients, instructions,time, dietType);
             recipeBook.addRecipe(newRecipe);
+            recipeBook.saveToFile("dataFile.txt");
             JOptionPane.showMessageDialog(this, "Recipe was created successfully");
             dispose();
         } catch (Exception ex){

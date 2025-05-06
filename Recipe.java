@@ -49,6 +49,7 @@ public class Recipe {
     }
 
     //creating the setters and getters
+    public void setRecipeId(int recipeId) {this.recipeId = recipeId;}
     public void setName(String name) {this.name = name;}
     public void setIngredients(List<String> ingredients) {this.ingredients = ingredients;}
     public void setInstructions(String instructions) {this.instructions = instructions;}
@@ -64,7 +65,5 @@ public class Recipe {
     public String getTime() {return time;}
     public double getRating() {return rating;}
     public String getDietType() {return dietType;}
-
-
-    
+   
 }

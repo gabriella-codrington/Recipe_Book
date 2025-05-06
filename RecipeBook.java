@@ -54,7 +54,7 @@ public class RecipeBook {
             String instructions = "";
             String time = "";
             String dietType = "";
-            int rating = 0;
+            Double rating = 0.0;
     
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("Name:")) {
@@ -69,7 +69,7 @@ public class RecipeBook {
                 } else if (line.startsWith("Diet Type:")) {
                     dietType = line.substring(10).trim();
                 } else if (line.startsWith("Rating:")) {
-                    rating = Integer.parseInt(line.substring(7).trim());
+                    rating = Double.parseDouble(line.substring(7).trim());
                 } else if (line.equals("---")) {
                     Recipe recipe = new Recipe(name, ingredients, instructions, time, dietType);
                     recipe.setRating(rating); // If rating is optional/set separately
@@ -80,7 +80,7 @@ public class RecipeBook {
                     ingredients = new ArrayList<>();
                     instructions = "";
                     dietType = "";
-                    rating = 0;
+                    rating = 0.0;
                 }
             }
         } catch (IOException e) {

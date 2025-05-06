@@ -71,32 +71,32 @@ public class SearchGUI extends JFrame {
         setVisible(true);
     }
     public void searchRecipe(ActionEvent e) {
-    String input = searchIngredients.getText().trim().toLowerCase();
-    if (input.isEmpty()) {
-        resultList.setListData(new String[0]);
-        return;
+        String input = searchIngredients.getText().trim().toLowerCase();
+        if (input.isEmpty()) {
+            resultList.setListData(new String[0]);
+            return;
+        }
+    
+        String[] ingredientsToSearch = input.split(",");
+        List<Recipe> filteredRecipes = recipeBook.getAllRecipes();
+    
+        for (String ingredient : ingredientsToSearch) {
+            String trimmed = ingredient.trim();
+            filteredRecipes = filteredRecipes.stream()
+                .filter(recipe -> recipe.getIngredients().stream()
+                    .anyMatch(ing -> ing.toLowerCase().contains(trimmed)))
+                .toList();
+        }
+    
+        lastSearchResults = filteredRecipes;
+    
+        List<String> recipeNames = filteredRecipes.stream()
+            .map(Recipe::getName)
+            .toList();
+    
+        resultList.setListData(recipeNames.toArray(new String[0]));
     }
-
-    String[] ingredientsToSearch = input.split(",");
-    List<Recipe> filteredRecipes = recipeBook.getAllRecipes();
-
-    for (String ingredient : ingredientsToSearch) {
-        String trimmed = ingredient.trim();
-        filteredRecipes = filteredRecipes.stream()
-            .filter(recipe -> recipe.getIngredients().stream()
-                .anyMatch(ing -> ing.equalsIgnoreCase(trimmed)))
-            .toList(); // Java 16+; use .collect(Collectors.toList()) if you're using Java 8
-    }
-
-    lastSearchResults = filteredRecipes;
-
-    // Extract names for the list
-    List<String> recipeNames = filteredRecipes.stream()
-        .map(Recipe::getName)
-        .toList();
-
-    resultList.setListData(recipeNames.toArray(new String[0]));
-}
+    
 public void selectRecipe(int recipeID) {
     Recipe recipe = recipeBook.getRecipeById(recipeID);
     if (recipe != null) {

@@ -97,20 +97,21 @@ public class SearchGUI extends JFrame {
         resultList.setListData(recipeNames.toArray(new String[0]));
     }
     
-public void selectRecipe(int recipeID) {
-    Recipe recipe = recipeBook.getRecipeById(recipeID);
-    if (recipe != null) {
-        StringBuilder details = new StringBuilder();
-        details.append("ID: ").append(recipe.getRecipeId()).append("\n");
-        details.append("Name: ").append(recipe.getName()).append("\n");
-        details.append("Ingredients: ").append(String.join(", ", recipe.getIngredients())).append("\n");
-        details.append("Instructions: ").append(recipe.getInstructions());
+    public void selectRecipe(int recipeID) {
+        Recipe recipe = recipeBook.getRecipeById(recipeID);
+        if (recipe != null) {
+            StringBuilder details = new StringBuilder();
+            details.append("ID: ").append(recipe.getRecipeId()).append("\n");
+            details.append("Name: ").append(recipe.getName()).append("\n");
+            details.append("Ingredients: ").append(String.join(", ", recipe.getIngredients())).append("\n");
+            details.append("Instructions: ").append(recipe.getInstructions()).append("\n");
+            details.append("Rating: ").append(recipe.getRating());
 
-        // Replace with ViewGUI later
-        JOptionPane.showMessageDialog(this, details.toString(), "Recipe Details", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(this, "Recipe not found", "Error", JOptionPane.ERROR_MESSAGE);
+            
+            JOptionPane.showMessageDialog(this, details.toString(), "Recipe Details", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Recipe not found", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
 
 }

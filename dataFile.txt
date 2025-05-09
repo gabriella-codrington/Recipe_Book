@@ -1,11 +1,11 @@
-ID:2
-Name:Choloate Chip
-Ingredients:1 cup (2 sticks) butter, softened,1 cup white sugar,1 cup brown sugar,2 eggs,2 tsp vanilla extract,3 cups all-purpose flour,1 tsp baking soda,½ tsp salt,2 cups chocolate chips
+ID:1
+Name:Chocolate Chip Cookies
+Ingredients:1 cup (2 sticks) butter,softened,1 cup white sugar,1 cup brown sugar,2 eggs,2 tsp vanilla extract,3 cups all-purpose flour,1 tsp baking soda,½ tsp salt,2 cups chocolate chips
 Instructions:Preheat oven to 350°F (175°C).In a large bowl, cream together butter, white sugar, and brown sugar until smooth.
 Diet Type:Vegan
 Rating:0.0
 ---
-ID:3
+ID:2
 Name:Chocolate Mug Cake
 Ingredients:4 tbsp all-purpose flour,2 tbsp cocoa powder,2 tbsp sugar,¼ tsp baking powder,3 tbsp milk,2 tbsp vegetable oil,A splash of vanilla extract,add chocolate chip (optional)
 Instructions:Mix all ingredients in a microwave-safe mug until smooth. Microwave for 1 minute (or until cooked through). Let cool slightly. Enjoy!
